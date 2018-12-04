@@ -41,6 +41,7 @@ class PostagemController extends Controller
         $postagem->tema = Input::get('tema');
         $postagem->descricao = Input::get('descricao');
         $postagem->id_disciplina = Input::get('id_disciplina');
+        $postagem->id_usuario = auth()->user()->id; 
         // from Model
         $postagem->save ();
 

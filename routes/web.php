@@ -23,17 +23,10 @@ Route::resource('users', 'UsersController',[
 	]
 ]); 
 
-Route::resource('postagem', 'PostagemController',[ 
-	'names' => [
-		'index' => 'postagem.inicio',
-		'create'=> 'postagem.criar',
-		'store' => 'postagem.salvar',
-		'/{id}/update'=> 'postagem.atualizar',
-		'destroy'=> 'postagem.remover'
-	]
-]); 
 
-Route::resource('disciplina', 'DisciplinaController',[
+Route::group(['middleware' => ['auth', 'check.admin']], function() {
+    // Precisa estar autenticado e ser usuário do tipo administrador para conseguir acessar 🙂
+	Route::resource('disciplina', 'DisciplinaController',[
 	'names'=>[
 		'index' => 'disciplina', 
 		'store' => 'disciplina.salvar', 
@@ -41,14 +34,28 @@ Route::resource('disciplina', 'DisciplinaController',[
 		'{id}/edit' => 'disciplina.editar', 
 		'{id}/update' => 'disciplina.atualizar',  
 		'destroy' => 'disciplina.remover' 
-
 	]
-]); 
+	]); 
+});
 
-Route::get('/', 'SiteController@index');
-Route::get('/login', 'SiteController@login');
-Route::get('/inicial', 'SiteController@inicial')->name('inicial');
-Route::post('/postagem/mostrar', 'PostagemController@show')->name('postagem.mostrar');
-Route::post('/postagem/{id}/editar', 'PostagemController@edit')->name('postagem.editar');
+Route::group(['middleware' => ['auth']], function() {
+    // Precisa estar autenticado para acessar 🙂
+ 	Route::resource('postagem', 'PostagemController',[ 
+	'names' => [
+		'index' => 'postagem.inicio',
+		'create'=> 'postagem.criar',
+		'store' => 'postagem.salvar',
+		'/{id}/update'=> 'postagem.atualizar',
+		'destroy'=> 'postagem.remover'
+	]
+	]); 
 
+	Route::get('/inicial', 'SiteController@inicial')->name('inicial');
+	Route::post('/postagem/mostrar', 'PostagemController@show')->name('postagem.mostrar');
+	Route::post('/postagem/{id}/editar', 'PostagemController@edit')->name('postagem.editar'); 
+});
 
+Route::get('/', 'SiteController@index')->name('index');
+Route::get('/login', 'SiteController@login')->name('login');
+Route::post('/autenticar', 'LoginController@autenticar')->name('autenticar');
+Route::get('/logout', 'LoginController@logout')->name('logout');

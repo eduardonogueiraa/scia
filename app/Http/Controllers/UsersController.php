@@ -39,12 +39,12 @@ class UsersController extends Controller
         $user = new User;
         $user->nome = Input::get('nome');
         $user->email = Input::get('email');
-        $user->senha = Input::get('senha');
+        $auxiliar = Input::get('password');
+        $user->password = bcrypt($auxiliar);
+        $user->tipo = Input::get('tipo'); 
         // from Model
-        $user->save ();
-
-        $disciplinas = \App\Disciplina::all();
-        return view('inicial', compact('disciplinas'));
+        $user->save (); 
+        return view('login');
     }
 
     /**

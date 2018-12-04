@@ -14,3 +14,4 @@ $factory->define(App\Postagem::class, function (Faker $faker) {
         'id_disciplina' => App\Disciplina::find($random2)->id,
     ];
 });
+ 

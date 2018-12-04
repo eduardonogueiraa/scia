@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     public $fillable = [
-        'nome', 'email', 'senha',
+        'nome', 'email', 'password',
     ];
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'senha', 'remember_token',
+        'password', 'remember_token',
     ];
   // um usuário pode fazer várias postagens
      public function postagens()

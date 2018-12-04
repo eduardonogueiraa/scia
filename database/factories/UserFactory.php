@@ -17,6 +17,11 @@ $factory->define(App\User::class, function (Faker $faker) {
     return [
         'nome' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'senha' => bcrypt(str_random(8)),
+        'password' => Hash::make(str_random(8)),
+        'tipo' => "usuario"
     ];
 });
+
+
+
+

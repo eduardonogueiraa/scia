@@ -14,5 +14,10 @@ class UsersSeeder extends Seeder
         factory(App\User::class, 10)->create()->each(function($user){
                 $user->postagens()->make();
             });
+
+        $password =  Hash::make("admin123"); 
+        DB::table('users')->insert(
+            ['nome' => 'admin', 'email' => 'admin@admin.com', 'password'=>$password, 'tipo'=>"admin"]);
+
     }
 }
